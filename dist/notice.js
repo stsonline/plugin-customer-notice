@@ -101,7 +101,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     function showThirdPartyApplication(cause) {
       var notice = document.createElement("div");
           notice.innerHTML = `<div id="customer-notice--plugin" style=
-                              "text-align:center;font-family:sans-serif;font-weight:400;font-size:16px!important;max-width:375px;margin:16px auto;line-height:1.7;">
+                              "text-align:center;font-family:sans-serif;font-weight:400;font-size:16px!important;max-width:767px;width:100%;margin:16px auto;line-height:1.7;">
                                 <div style=
                                 "padding:20px;margin:0 16px;border: 1px solid #f5f4f4;border-top:3px solid ${themeColor};background-color:#fbfbfb;">
                                   <iframe id="vendor-form" src='${endpointVendor}' width="100%" frameborder="0" scrolling="yes" style="min-height:1570px;overflow-y:auto;"></iframe>

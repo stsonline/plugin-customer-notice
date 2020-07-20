@@ -7,6 +7,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     var defaults = {
       api: {
         url: 'https://example.com/api/status',
+        urlOverride: 'http://example.com/api/health',
         vendor: {
           url: 'https://example.com/api/forms/example'
         }
@@ -33,6 +34,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     // init variables with options
     var endpoint = this.options.api.url,
+        overrideEndpoint = this.options.api.urlOverride,
         endpointVendor = this.options.api.vendor.url,
         fetchTimeout = this.options.timeout,
         elPrepend = this.options.element,
@@ -79,6 +81,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
     // hide the application
     function hideApplication(type) {
+
+      console.log(elPrepend)
+
       if (document.getElementById(elPrepend)) {
         document.getElementById(elPrepend).style.display = 'none';
         document.getElementById(elPrepend).style.visibility = 'hidden';
@@ -118,7 +123,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
 
     // check system health
-    function systemHealth(url) {
+    function systemHealth(url, isPriority = false) {
       var xhr = new XMLHttpRequest()
       xhr.addEventListener('error', noticeErr)
 
@@ -127,6 +132,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       xhr.ontimeout = function () {
         noticeErr('network')
       }
+
 
       xhr.onreadystatechange = function() {
         if (xhr.readyState === 4 && xhr.response != null) {
@@ -141,7 +147,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       }
 
       function noticeErr(type) {
-        hideApplication((type) ? type : 'down')
+        if (!isPriority) hideApplication((type) ? type : 'down')
       }
 
 
@@ -155,7 +161,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     if (window.XMLHttpRequest) {
       isGaImportable()
 
-      // check health
+      // check health for manual override first
+      systemHealth(overrideEndpoint, true)
+
+      // check health of main system
       systemHealth(endpoint)
     }
 
